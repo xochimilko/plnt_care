@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed('/AddPlant');
-          print('Potato');
+          //print('Potato');
         },
         child: Icon(Icons.add),
       ),

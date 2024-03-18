@@ -26,15 +26,51 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20.0),
-            _buildQuestion('Do you have black spots on leaves?'),
-            _buildQuestion('Do you have yellow leaves?'),
-            _buildQuestion('Are leaves falling?'),
-            _buildQuestion('Do you have white patches on leaves?'),
-            _buildQuestion('Is the soil moisture low?'),
-            _buildQuestion('Is it shady?'),
-            _buildQuestion('Is the soil damp?'),
-            _buildQuestion('Is it in a humid environment?'),
-            _buildQuestion('Is it in a greenhouse?'),
+            _buildQuestion('Do you have black spots on leaves?', (value) {
+              setState(() {
+                blackSpotSymptoms = value!;
+              });
+            }, blackSpotSymptoms),
+            _buildQuestion('Do you have yellow leaves?', (value) {
+              setState(() {
+                // Update the state of yellow leaves checkbox
+              });
+            }, false /* Pass the current state of yellow leaves checkbox here */),
+            _buildQuestion('Are leaves falling?', (value) {
+              setState(() {
+                // Update the state of falling leaves checkbox
+              });
+            }, false /* Pass the current state of falling leaves checkbox here */),
+            _buildQuestion('Do you have white patches on leaves?', (value) {
+              setState(() {
+                powderyMildewSymptoms = value!;
+              });
+            }, powderyMildewSymptoms),
+            _buildQuestion('Is the soil moisture low?', (value) {
+              setState(() {
+                // Update the state of low soil moisture checkbox
+              });
+            }, false /* Pass the current state of low soil moisture checkbox here */),
+            _buildQuestion('Is it shady?', (value) {
+              setState(() {
+                // Update the state of shady checkbox
+              });
+            }, false /* Pass the current state of shady checkbox here */),
+            _buildQuestion('Is the soil damp?', (value) {
+              setState(() {
+                dampingOffSymptoms = value!;
+              });
+            }, dampingOffSymptoms),
+            _buildQuestion('Is it in a humid environment?', (value) {
+              setState(() {
+                // Update the state of humid environment checkbox
+              });
+            }, false /* Pass the current state of humid environment checkbox here */),
+            _buildQuestion('Is it in a greenhouse?', (value) {
+              setState(() {
+                // Update the state of greenhouse checkbox
+              });
+            }, false /* Pass the current state of greenhouse checkbox here */),
             SizedBox(height: 20.0),
           ],
         ),
@@ -49,13 +85,15 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     );
   }
 
-  Widget _buildQuestion(String question) {
+  Widget _buildQuestion(
+    String question,
+    void Function(bool?) onChanged,
+    bool value,
+  ) {
     return CheckboxListTile(
       title: Text(question),
-      value: false,
-      onChanged: (value) {
-        // Do nothing for now, just to display questions
-      },
+      value: value,
+      onChanged: onChanged,
     );
   }
 
