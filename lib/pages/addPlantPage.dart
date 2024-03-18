@@ -1,98 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:plantapp/plant.dart';
+import 'package:plantapp/plantProvider.dart';
+import 'package:provider/provider.dart';
 
-class AddPlantPage extends StatefulWidget {
-  const AddPlantPage({super.key});
-  @override
-  State<AddPlantPage> createState() => _AddPlantPageState();
-}
+class AddPlantPage extends StatelessWidget {
+  final TextEditingController _plantController = TextEditingController();
 
-class _AddPlantPageState extends State<AddPlantPage> {
-  String selectedWaterVal = 'Weekly'; //default value
-  String selectedRootVal = 'Weekly';
-  String selectedFerVal = 'Weekly';
-  List<String> frequencies = [
-    "Once a day",
-    "Once every three days",
-    "Weekly",
-    "Once a month"
-  ];
-  var frequencyMap = {
-    'everyday': 1,
-    'every three days': 3,
-    'weekly': 7,
-    'monthly': 30,
-  };
-  Map<DateTime, List> eventsList = {};
+  void _addPlant(BuildContext context) {
+    final plantText = _plantController.text;
+    if (plantText.isNotEmpty) {
+      Provider.of<PlantProvider>(context, listen: false).addPlant(
+        PlantThing(
+          id: DateTime.now().toString(),
+          title: plantText,
+        ),
+      );
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            padding: EdgeInsets.all(10.0),
-            child: Column(children: <Widget>[
-              const Text('Plant Name'),
-              const TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Enter plant name',
-                      border: OutlineInputBorder())),
-              const Text('Enter watering frequency'),
-              DropdownMenu<String>(
-                  onSelected: (String? freq) {
-                    setState(() {
-                      if (freq != null) {
-                        selectedWaterVal = freq;
-                      }
-                    });
-                  },
-                  dropdownMenuEntries: frequencyMap.keys
-                      .map<DropdownMenuEntry<String>>((String frequencyKey) {
-                    return DropdownMenuEntry<String>(
-                      value: frequencyKey,
-                      label: frequencyKey,
-                      enabled: true,
-                    );
-                  }).toList()),
-              const Text('Enter root check frequency'),
-              DropdownMenu<String>(
-                  onSelected: (String? freq) {
-                    setState(() {
-                      if (freq != null) {
-                        selectedRootVal = freq;
-                      }
-                    });
-                  },
-                  dropdownMenuEntries: frequencyMap.keys
-                      .map<DropdownMenuEntry<String>>((String frequencyKey) {
-                    return DropdownMenuEntry<String>(
-                      value: frequencyKey,
-                      label: frequencyKey,
-                      enabled: true,
-                    );
-                  }).toList()),
-              const Text('Enter fertilizer frequency'),
-              DropdownMenu<String>(
-                  onSelected: (String? freq) {
-                    setState(() {
-                      if (freq != null) {
-                        selectedFerVal = freq;
-                      }
-                    });
-                  },
-                  dropdownMenuEntries: frequencyMap.keys
-                      .map<DropdownMenuEntry<String>>((String frequencyKey) {
-                    return DropdownMenuEntry<String>(
-                      value: frequencyKey,
-                      label: frequencyKey,
-                      enabled: true,
-                    );
-                  }).toList()),
-              ElevatedButton(
-                onPressed: () {
-                  print('submitted');
-                  print(selectedFerVal + selectedRootVal + selectedWaterVal);
-                },
-                child: const Text('Save'),
-              ),
-            ])));
+      appBar: AppBar(
+        title: Text('Add New Plant'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: _plantController,
+              decoration: InputDecoration(labelText: 'Plant'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => _addPlant(context),
+              child: Text('Add New Plant'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

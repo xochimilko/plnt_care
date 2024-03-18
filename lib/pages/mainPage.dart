@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../customwidgets/NavButtons.dart';
+import 'package:plantapp/pages/homePage.dart';
+import 'package:plantapp/pages/questionPage.dart';
+import 'package:plantapp/plantProvider.dart';
+import 'package:provider/provider.dart';
+
 import '../pages/addPlantPage.dart';
+import 'calendar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -12,14 +17,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State {
   int currentPageIndex = 0;
 
-  List _pages = [
-    Center(
-      child: Text("Home"),
-    ),
-    Center(
-      child: Text("Calendar"),
-    ),
-    AddPlantPage(),
+  final List _pages = [
+    HomePage(),
+    WeeklyCalendarScreen(),
+    QuestionnaireScreen(),
   ];
 
   _changeTab(int index) {
@@ -48,7 +49,8 @@ class _MainPageState extends State {
               label: 'Home'),
           NavigationDestination(
               icon: Icon(Icons.calendar_month_rounded), label: 'Calendar'),
-          NavigationDestination(icon: Icon(Icons.add), label: 'Add Plant'),
+          NavigationDestination(
+              icon: Icon(Icons.question_mark), label: 'Diagnose Plant'),
         ],
       ),
     );
